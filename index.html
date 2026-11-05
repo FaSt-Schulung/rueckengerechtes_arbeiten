@@ -419,11 +419,11 @@ makeAnim({ mount:coreBox, title:"Becken aufrichten",
     setArrowHead(head,[300,256],[284,272]);
     return (p)=>{
       const PC=[248,226];
-      const S=[lerp(240,248,p),106], C=[lerp(266,248,p),176];
+      const S=[lerp(236,240,p),106], C=[lerp(262,240,p),176];
       L.forEach((l,i)=>{
         line(l.legA,[252,368],PC); line(l.legB,[252,368],PC);
         at(butt[i],{cx:lerp(222,236,p), cy:lerp(220,230,p)});
-        l.torso.setAttribute("d",`M${PC[0]} ${PC[1]-8} Q${C[0].toFixed(1)} ${C[1]} ${S[0].toFixed(1)} ${S[1]}`);
+        l.torso.setAttribute("d",`M${PC[0]-10} ${PC[1]-8} Q${C[0].toFixed(1)} ${C[1]} ${S[0].toFixed(1)} ${S[1]}`);
         poly(l.armA,[S,S]);
         poly(l.armB,[[S[0]+2,S[1]+8],[S[0]+12,S[1]+128]]);
         at(l.head,{cx:S[0]+6, cy:42});
@@ -435,9 +435,9 @@ makeAnim({ mount:coreBox, title:"Becken aufrichten",
 
 /* ---------- Core 3: Spannung spüren (von vorne) ---------- */
 makeAnim({ mount:coreBox, title:"Spannung spüren",
-  list:["Spannung im Bauch","Spannung am Becken","Spannung im unteren Rücken"],
+  list:["Spannung im Bauch","Spannung im unteren Bauch","Spannung im unteren Rücken"],
   aria:"Animiertes Strichmännchen von vorne: Hände an der Taille, ein Ring um den Rumpf zeigt die Spannung",
-  steps:[[1400,0,0,"Hände an den Rumpf"],[2200,0,1,"Spannung aufbauen"],[3600,1,1,"Spüren: Bauch, Becken, unterer Rücken"],[1800,1,0,"Wieder lösen"]],
+  steps:[[1400,0,0,"Hände an den Rumpf"],[2200,0,1,"Spannung aufbauen"],[3600,1,1,"Spüren: Bauch, unterer Bauch, unterer Rücken"],[1800,1,0,"Wieder lösen"]],
   build(svg){
     const L=[layer(svg,true), layer(svg,false)];
     const ring = mk(svg,"ellipse",{class:"ring",cx:260,cy:196});
@@ -479,7 +479,7 @@ makeAnim({ mount:exBox, title:"Beugen und Strecken (Jefferson Curl)", band:true,
       // Abrollen beginnt am Kopf und endet an der Hüfte
       const aHip=62*win(p,.50,1), aLow=aHip+26*win(p,.38,.85), aMid=aLow+32*win(p,.24,.70);
       const aUp=aMid+38*win(p,.10,.55), aNeck=aUp+36*win(p,0,.38);
-      const back=52*win(p,.45,1);
+      const back=0;                       // Po und Beine weichen nicht nach hinten aus
       const H=[FOOT_X-back, footY-Math.sqrt(LEG*LEG-back*back)];
       let P=H; const pts=[H];
       for(const a of [aLow,aMid,aUp]){ P=add(P,dir(a),SEG); pts.push(P); }
@@ -495,15 +495,15 @@ makeAnim({ mount:exBox, title:"Beugen und Strecken (Jefferson Curl)", band:true,
 
 /* ---------- Theraband 2: Seitneigung (von vorne) ---------- */
 makeAnim({ mount:exBox, title:"Seitneigung", band:true,
-  list:["Band unter einen Fuß, Ende in die Hand dieser Seite","Leicht zum Band hin geneigt starten","So weit wie möglich zur anderen Seite neigen","Der Arm bleibt steif an der Körperseite"],
+  list:["Band unter einen Fuß, Ende in die Hand dieser Seite","Aufrecht in der Mitte starten","So weit wie möglich zur anderen Seite neigen","Der Arm bleibt steif an der Körperseite","Zurück nur bis zur Mitte"],
   note:"Danach Band unter den anderen Fuß und Seite wechseln.",
-  aria:"Animiertes Strichmännchen von vorne: startet zum Band hin geneigt und neigt sich weit zur anderen Seite, beide Arme bleiben an der Körperseite",
-  steps:[[1400,0,0,"Start: leicht zum Band hin"],[3400,0,1,"So weit wie möglich zur anderen Seite"],[1200,1,1,"Kurz halten"],[3400,1,0,"Langsam zurück"]],
+  aria:"Animiertes Strichmännchen von vorne: startet aufrecht in der Mitte und neigt sich weit zur anderen Seite, beide Arme bleiben an der Körperseite",
+  steps:[[1400,0,0,"Start: aufrecht in der Mitte"],[3400,0,1,"So weit wie möglich zur anderen Seite"],[1200,1,1,"Kurz halten"],[3400,1,0,"Langsam zurück bis zur Mitte"]],
   build(svg){
     const F = layer(svg,false);
     const band = mk(svg,"path",{class:"band"});
     return (p,t,showBand)=>{
-      const lean = lerp(-18,46,p);               // minus = zum Band hin
+      const lean = lerp(0,46,p);                 // 0 = aufrechte Mitte
       const pel=[260-0.22*lean, 220];
       let P=pel; const pts=[pel];
       for(const a of [0.22*lean, 0.58*lean, lean]){ P=add(P,dir(a),38); pts.push(P); }
